@@ -11,18 +11,25 @@ private:
   struct _windowIMPL;
   _windowIMPL* _impl;
 public:
-  void setPosition(uint2d);
-  void setSize    (uint2d);
+  void setPosition(const uint2d&);
+  void setSize    (const uint2d&);
 
-  uint2d getPosition();
-  uint2d getSize();
+  const uint2d getPosition();
+  const uint2d getSize();
 
   window();
-  window(uint2d,uint2d,std::string);
+  window(const uint2d&,
+	 const uint2d&,
+	 const std::string&);
+  
   window(unsigned int,unsigned int,
-	 unsigned int,unsigned int,std::string);
+	 unsigned int,unsigned int,
+	 const std::string&);
 
-  bool create(uint2d,uint2d,std::string);
+  bool create(const uint2d&,
+	      const uint2d&,
+	      const std::string&);
+  
   void destroy();
 
   event& pollEvents();
@@ -33,6 +40,6 @@ public:
   bool isOpen();
   void close ();
 
-  void rename(std::string); };
+  void rename(const std::string&); };
 
 #endif

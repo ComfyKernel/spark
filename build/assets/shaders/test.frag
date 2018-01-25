@@ -3,5 +3,8 @@
 in  vec3 uv;
 out vec4 frag;
 
+uniform sampler2D tex;
+
 void main() {
-	frag=vec4(uv,1.0); }
+	frag=texture(tex,uv.xy);
+}

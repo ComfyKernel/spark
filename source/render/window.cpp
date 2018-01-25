@@ -186,22 +186,23 @@ public:
   GLFWwindow* win;
   event e;
 
-  uint2d getPos () {
+  const uint2d getPos () {
     int x,y;
     glfwGetWindowPos (win,&x,&y);
     return uint2d(x,y);
   }
   
-  uint2d getSize() {
+  const uint2d getSize() {
     int w,h;
     glfwGetWindowSize(win,&w,&h);
     return uint2d(w,h);
   }
 
-  void setPos (uint2d  pos) { glfwSetWindowPos (win,pos.x ,pos.y ); }
-  void setSize(uint2d size) { glfwSetWindowSize(win,size.x,size.y); }
+  void setPos (const uint2d&  pos) { glfwSetWindowPos (win,pos.x ,pos.y ); }
+  void setSize(const uint2d& size) { glfwSetWindowSize(win,size.x,size.y); }
 
-  bool create(uint2d pos,uint2d size,std::string name) {
+  bool create(const uint2d& pos, const uint2d& size,
+	      const std::string& name) {
     if(!_has_init_glfw) {
       std::cout<<"Initializing GLFW\n";
       _has_init_glfw=true;
@@ -248,7 +249,7 @@ public:
     glfwDestroyWindow(win);
   }
 
-  bool rename(std::string name) {
+  bool rename(const std::string& name) {
     glfwSetWindowTitle(win,name.c_str());
     return true;
   }
@@ -299,34 +300,37 @@ public:
   }
 };
 
-void window::setPosition(uint2d pos)  { _impl->setPos (pos ); }
-void window::setSize    (uint2d size) { _impl->setSize(size); }
+void window::setPosition(const uint2d& pos)  { _impl->setPos (pos ); }
+void window::setSize    (const uint2d& size) { _impl->setSize(size); }
 
-uint2d window::getPosition() { return _impl->getPos (); };
-uint2d window::getSize    () { return _impl->getSize(); };
+const uint2d window::getPosition() { return _impl->getPos (); };
+const uint2d window::getSize    () { return _impl->getSize(); };
 
 window::window()
   : _impl{new _windowIMPL()} { }
 
-window::window(uint2d pos,uint2d size,std::string name)
+window::window(const uint2d& pos, const uint2d& size,
+	       const std::string& name)
   : _impl{new _windowIMPL()} {
   
   create(pos,size,name);
 }
 
 window::window(unsigned int X,unsigned int Y,
-	       unsigned int W,unsigned int H,std::string name)
+	       unsigned int W,unsigned int H,
+	       const std::string& name)
   : _impl{new _windowIMPL()} {
   
   create(uint2d(X,Y),uint2d(W,H),name);
 }
 
-bool window::create(uint2d pos,uint2d size,std::string name) {
+bool window::create(const uint2d& pos,const uint2d& size,
+		    const std::string& name) {
   return _impl->create(pos,size,name);
 }
 
-void window::destroy()                { _impl->destroy();    }
-void window::rename(std::string name) { _impl->rename(name); }
+void window::destroy()                       { _impl->destroy();    }
+void window::rename(const std::string& name) { _impl->rename(name); }
 
 bool window::isOpen()      { return _impl->isOpen();      }
 bool window::makeCurrent() { return _impl->makeCurrent(); }

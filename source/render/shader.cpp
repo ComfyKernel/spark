@@ -11,12 +11,12 @@ shader::shader() {
   _glid=0;
 }
 
-shader::shader(std::string name,shader_type type) {
+shader::shader(const std::string& name,shader_type type) {
   _glid=0;
   create(name,type);
 }
 
-bool shader::create(std::string name,shader_type type) {
+bool shader::create(const std::string& name,shader_type type) {
   destroy();
 
   std::vector<char> data;
@@ -79,7 +79,7 @@ shaderprogram::shaderprogram() {
   _glid = 0;
 }
 
-shaderprogram::shaderprogram(std::initializer_list<shader> shaders) {
+shaderprogram::shaderprogram(const std::initializer_list<shader>& shaders) {
   _glid = 0;
   create();
   link_list(shaders);
@@ -91,7 +91,7 @@ bool shaderprogram::create() {
   return true;
 }
 
-bool shaderprogram::link_list(std::initializer_list<shader> shaders) {
+bool shaderprogram::link_list(const std::initializer_list<shader>& shaders) {
   for(auto i : shaders) {
     attach(i);
   }

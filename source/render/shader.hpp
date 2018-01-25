@@ -15,27 +15,29 @@ protected:
   shader_type _type;
 public:
   shader();
-  shader(std::string,shader_type);
+  shader(const std::string&,shader_type);
 
-  bool create(std::string,shader_type);
+  bool create(const std::string&,shader_type);
   void destroy();
 
-  shader_type getType() const; };
+  shader_type getType() const;
+};
 
 // SHADER PROGRAM //
 
 class shaderprogram : public globject {
 public:
   shaderprogram();
-  shaderprogram(std::initializer_list<shader>);
+  shaderprogram(const std::initializer_list<shader>&);
 
   bool create();
   void destroy();
 
-  bool link_list(std::initializer_list<shader>);
+  bool link_list(const std::initializer_list<shader>&);
 
   void attach(shader);
 
-  bool link(); };
+  bool link();
+};
 
 #endif
