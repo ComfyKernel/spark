@@ -13,10 +13,6 @@ int main(int argc,char *argv[]) {
       std::cout<<"Failed to create window!\n";
       return -1;
     }
-
-    glActiveTexture(GL_TEXTURE0);
-
-    texture tex("assets/textures/measure_wall.png");
     
     vao vobject;
     vobject.create();
@@ -30,6 +26,10 @@ int main(int argc,char *argv[]) {
     glUseProgram(prog);
 
     GLint u_tex = glGetUniformLocation(prog, "tex");
+
+    glActiveTexture(GL_TEXTURE0);
+    
+    texture tex("assets/textures/measure_wall.png");
     
     buffer vbuff({ -1.f,-1.f,0.f,
 	            1.f,-1.f,0.f,
@@ -50,8 +50,8 @@ int main(int argc,char *argv[]) {
       glClear(GL_COLOR_BUFFER_BIT);
       
       glVertexAttribPointer(0,3,GL_FLOAT,false,0,(void*)0);
-
-      glUniform1i(u_tex, tex);
+      
+      glUniform1i(u_tex, 0);
       
       glDrawElements(GL_TRIANGLES,3,GL_UNSIGNED_INT,(void*)0);
       

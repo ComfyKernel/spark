@@ -15,16 +15,20 @@ bool texture::create() {
   destroy();
 
   glGenTextures(1, &_glid);
+
+  return true;
 }
 
 bool texture::load(const std::string& path) {
   create();
 
+  std::cout<<"Loading image '"<<path<<"'\n";
+
   int w,h,d;
 
   unsigned char* data = stbi_load(path.c_str(),
 				  &w, &h, &d,
-				  STBI_rgb_alpha);
+				  STBI_rgb);
 
   if(data == nullptr) {
     throw std::runtime_error(std::string("Failed to load image '")+
@@ -34,10 +38,13 @@ bool texture::load(const std::string& path) {
 
   glBindTexture(GL_TEXTURE_2D, _glid);
 
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
   glTexImage2D(GL_TEXTURE_2D, 0,
-	       GL_RGBA8,
+	       GL_RGB,
 	       w, h, 0,
-	       GL_RGBA,
+	       GL_RGB,
 	       GL_UNSIGNED_BYTE,
 	       data);
   
