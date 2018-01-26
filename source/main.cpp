@@ -1,5 +1,6 @@
 #include "application/application.hpp"
 #include "comfyscript/comfyscript.hpp"
+#include "object/object.hpp"
 #include "render/render.hpp"
 #include "error/error.hpp"
 #include "units/units.hpp"
