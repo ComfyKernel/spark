@@ -3,7 +3,9 @@
 #include <iostream>
 #include <exception>
 
-application::application() { }
+application::application() {
+  world.name = "world";
+}
 
 bool application::run(uint2d pos, uint2d size, const std::string& name) {
   if(_is_running) {

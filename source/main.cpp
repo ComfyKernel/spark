@@ -26,6 +26,10 @@ public:
   cfs::scriptrunner tscript;
   
   void onStart() {
+    world.addChild(object("testobject"));
+
+    world.getChild("testobject");
+    
     tscript.load("assets/scripts/thing.cfs");
 
     tscript.interpret();

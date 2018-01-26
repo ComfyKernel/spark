@@ -2,12 +2,14 @@
 #define H_APPLICATION_HPP
 
 #include "../render/window.hpp"
+#include "../object/object.hpp"
 
 class application {
 protected:
   bool _is_running = false;
 public:
   window win;
+  object world;
   
   application();
 

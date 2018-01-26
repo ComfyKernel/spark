@@ -4,6 +4,7 @@
 #include "../units/units.hpp"
 
 #include <string>
+#include <vector>
 
 class object {
 protected:
@@ -12,7 +13,8 @@ protected:
   float3d __siz;
 
   object* __parent;
-  
+
+  std::vector<object> __children;
 public:
   std::string name;
   
@@ -23,13 +25,17 @@ public:
   object&  parent        ();
   
   object();
-  object(std::string);
+  object(const std::string&);
 
   void translate(const float3d&);
   void rotate   (const float3d&);
   void scale    (const float3d&);
 
-  void setParent(object& parent);
+  void setParent(object&);
+
+  void    addChild(const object&);
+  bool    delChild(const std::string&);
+  object& getChild(const std::string&);
 };
 
 #endif
