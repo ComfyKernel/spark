@@ -1,6 +1,8 @@
 #include "buffer.hpp"
 #include "head.hpp"
 
+#include <iostream>
+
 buffer::buffer() {
   _glid=0;
 }

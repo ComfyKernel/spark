@@ -1,3 +1,4 @@
+#include "application/application.hpp"
 #include "render/render.hpp"
 #include "error/error.hpp"
 #include "units/units.hpp"
@@ -5,63 +6,91 @@
 
 #include <iostream>
 
-int main(int argc,char *argv[]) {
-  try {
-    window win;
+class testapp : public application {
+public:
+  vao    vobject;
+  
+  shader fshad;
+  shader vshad;
 
-    if(!win.create(uint2d(0,0),uint2d(1280,720),"Spark")) {
-      std::cout<<"Failed to create window!\n";
-      return -1;
-    }
-    
-    vao vobject;
+  shaderprogram prog;
+  GLint uni_tex;
+
+  texture tex;
+
+  buffer vbuff;
+  buffer ibuff;
+  
+  void onStart() {
     vobject.create();
     glBindVertexArray(vobject);
-  
-    shader fshad("assets/shaders/test.frag",SHADER_FRAGMENT);
-    shader vshad("assets/shaders/test.vert",SHADER_VERTEX  );
-    
-    shaderprogram prog{vshad , fshad};
-    
+
+    fshad = shader("assets/shaders/test.frag", SHADER_FRAGMENT);
+    vshad = shader("assets/shaders/test.vert", SHADER_VERTEX  );
+
+    prog = shaderprogram{fshad, vshad};
+
     glUseProgram(prog);
 
-    GLint u_tex = glGetUniformLocation(prog, "tex");
+    uni_tex = glGetUniformLocation(prog, "tex");
 
     glActiveTexture(GL_TEXTURE0);
+
+    tex = texture("assets/textures/measure_wall.png");
+
+    unsigned int indis[3] = {
+      0, 1, 2
+    };
     
-    texture tex("assets/textures/measure_wall.png");
-    
-    buffer vbuff({ -1.f,-1.f,0.f,
-	            1.f,-1.f,0.f,
-	           -0.f, 1.f,0.f },BUFFER_VERTEX ,BUFFER_STATIC);
-    
-    buffer ibuff({ 0,1,2 },BUFFER_ELEMENT,BUFFER_STATIC);
-    
+    vbuff = buffer({
+	  -1.f,-1.f,0.f,
+	   1.f,-1.f,0.f,
+	  -0.f, 1.f,0.f
+	  }, BUFFER_VERTEX, BUFFER_STATIC);
+
+    ibuff = buffer(indis, 3*sizeof(int), BUFFER_ELEMENT, BUFFER_STATIC);
+
     glEnableVertexAttribArray(0);
-    
-    while(win.isOpen()) {
-      event& e=win.pollEvents();
-      
-      if(e.status) {
-	std::cout<<"Key pressed '"<<e.key<<"'\n";
-      }
-      
-      glClearColor(0,0,0,1);
-      glClear(GL_COLOR_BUFFER_BIT);
-      
-      glVertexAttribPointer(0,3,GL_FLOAT,false,0,(void*)0);
-      
-      glUniform1i(u_tex, 0);
-      
-      glDrawElements(GL_TRIANGLES,3,GL_UNSIGNED_INT,(void*)0);
-      
-      win.swap();
+  }
+
+  void onUpdate(float delta) {
+    event& e = win.pollEvents();
+
+    if(e.status) {
+      std::cout<<"[Key Pressed] '"<<e.key<<"'\n";
     }
+  }
+
+  void onDraw(float delta) {
+    glClearColor(0, 0, 0, 1);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glBindBuffer(GL_ARRAY_BUFFER        , vbuff);
+    glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, (void*)0);
+
+    glBindTexture(GL_TEXTURE_2D, tex);
+    glUniform1i(uni_tex, 0);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibuff);
+    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void*)0);
     
-    win.destroy();
+    win.swap();
+  }
+
+  void onExit(float delta) {
+
+  }
+};
+
+int main(int argc,char *argv[]) {
+  try {
+    testapp t;
+
+    t.run(uint2d(0, 0), uint2d(1280, 720), "Test Application (Spark)");
     
-    return 0;
   } catch(std::exception &e) {
     errorwindow ewin("Spark Error", std::string("[Error] : ") + e.what());
   }
+
+  return 0;
 }
