@@ -1,26 +1,7 @@
-#type global
+#type immediate
 
-use <io>
+variable depth = 0;
 
-unsigned int depth = 0;
+function main() {
 
-function test(string msg) {
-	 console.print("[" + depth.string + "] " + msg + " [test]");
-	 depth++;
-}
-
-function start() {
-	 console.print("Interpreter Version '" + __VERSION__ + "'");
-	 test("Testing thing");
-	 test("Another testing thing");
-}
-
-function update() {
-	 if(depth < 10) {
-	 	  test("Another string");
-	 }
-}
-
-function exit() {
-	 test("Exiting");
 }

@@ -1,4 +1,5 @@
 #include "application/application.hpp"
+#include "comfyscript/comfyscript.hpp"
 #include "render/render.hpp"
 #include "error/error.hpp"
 #include "units/units.hpp"
@@ -20,8 +21,15 @@ public:
 
   buffer vbuff;
   buffer ibuff;
+
+  cfs::scriptrunner tscript;
   
   void onStart() {
+    tscript.load("assets/scripts/thing.cfs");
+
+    tscript.interpret();
+    tscript.run();
+    
     vobject.create();
     glBindVertexArray(vobject);
 
