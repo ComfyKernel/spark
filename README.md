@@ -1,4 +1,7 @@
+<hr>
+
 <h1 align="center">SPARK</h1>
+<h6 align="center">By ComfyKernel</h6>
 
 <h3><em>What is it?</em></h3>
 
@@ -11,7 +14,9 @@
 <ul>
   <li>Basic window creation</li>
   <li>Class wrappers for opengl</li>
-  <li>Error reporting in a window</li>
+  <li>Error reporting in a window (ooh fancy)</li>
+  <li>Controllable objects</li>
+  <li>Scripted objects</li>
 </ul>
 
 <h3><em>What are other things that seem totally uninteresting to normal people?</em></h3>
