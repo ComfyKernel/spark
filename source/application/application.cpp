@@ -24,14 +24,6 @@ bool application::run(uint2d pos, uint2d size, const std::string& name) {
 
   std::vector<object>& world_children = world.children();
 
-  for(unsigned int i=0; i<world_children.size(); ++i) {
-    std::vector<script*>& child_scripts = world_children[i].scripts();
-    
-    for(unsigned int s=0; s<child_scripts.size(); ++s) {
-      child_scripts[s]->onStart();
-    }
-  }
-
   while(win.isOpen() && _is_running) {
     onUpdate(0.f);
 
