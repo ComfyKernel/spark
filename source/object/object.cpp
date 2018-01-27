@@ -30,6 +30,7 @@ void object::setParent(object& parent) {
 }
 
 void object::addChild(const object& o) {
+  o.setParent(*this);
   __children.push_back(o);
 }
 
@@ -65,3 +66,5 @@ bool object::delChild(const std::string& n) {
   std::cout<<"Object not found '"<<n<<"'\n";
   return false;
 }
+
+script::script() { }

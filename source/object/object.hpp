@@ -6,8 +6,27 @@
 #include <string>
 #include <vector>
 
+class object;
+
+class script {
+protected:
+  friend class object;
+  object* parent;
+  
+public:
+  script();
+
+  virtual void onStart (           ) { };
+  virtual void onUpdate(float delta) { };
+  virtual void onExit  (           ) { };
+};
+
+class application;
+
 class object {
 protected:
+  friend class application;
+  
   float3d __pos;
   float3d __rot;
   float3d __siz;
@@ -15,6 +34,7 @@ protected:
   object* __parent;
 
   std::vector<object> __children;
+  std::vector<script> __scripts;
 public:
   std::string name;
   
