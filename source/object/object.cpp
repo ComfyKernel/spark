@@ -39,8 +39,8 @@ void object::setParent(object* parent) {
 #define MAC_SITR(type,vecname,nvar)  \
   find_if(vecname.begin(),          \
           vecname.end(),	     \
-          [&](const type& t) {       \
-	    return t.name() == nvar; \
+          [&](const type* t) {       \
+	    return t->name() == nvar; \
           });
 
 void object::addChild(const object& o) {
