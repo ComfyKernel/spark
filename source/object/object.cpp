@@ -36,6 +36,13 @@ void object::setParent(object* parent) {
             return t.name == nvar;   \
           });
 
+#define MAC_SITR(type,vecname,nvar)  \
+  find_if(vecname.begin(),          \
+          vecname.end(),	     \
+          [&](const type& t) {       \
+	    return t.name() == nvar; \
+          });
+
 void object::addChild(const object& o) {
   __children.push_back(o);
   __children[__children.size() - 1].setParent(this);
@@ -66,18 +73,16 @@ bool object::delChild(const std::string& n) {
   return false;
 }
 
-void object::addScript(const script& o) {
-  std::cout<<"Adding script '"<<o.name<<"'...\n";
-  
-  __scripts.push_back(o);
-  __scripts[__scripts.size() - 1].parent = this;
-  
-  std::cout<<"Calling script start...\n";
-  __scripts[__scripts.size() - 1].onStart();
+void object::__addScript(script* scr) {
+  std::cout<<"Adding script '"<<scr->name()<<"'\n";
+  __scripts.push_back(scr);
+
+  __scripts[__scripts.size() - 1]->parent = this;
+  __scripts[__scripts.size() - 1]->onStart();
 }
 
-script& object::getScript(const std::string& n) {
-  auto itr = MAC_FITR(script, __scripts, n);
+script* object::getScript(const std::string& n) {
+  auto itr = MAC_SITR(script, __scripts, n);
 
   if(itr != __scripts.end()) {
     auto dst = std::distance(__scripts.begin(), itr);
@@ -89,10 +94,11 @@ script& object::getScript(const std::string& n) {
 }
 
 bool object::delScript(const std::string& n) {
-  auto itr = MAC_FITR(script, __scripts, n);
+  auto itr = MAC_SITR(script, __scripts, n);
 
   if(itr != __scripts.end()) {
-    __scripts[std::distance(__scripts.begin(),itr)].onExit();
+    __scripts[std::distance(__scripts.begin(),itr)]->onExit();
+    delete __scripts[std::distance(__scripts.begin(), itr)];
     __scripts.erase(itr);
 
     return true;
@@ -102,7 +108,7 @@ bool object::delScript(const std::string& n) {
   return false;
 }
 
-std::vector<object>& object::children() { return __children; }
-std::vector<script>& object::scripts () { return __scripts;  }
+std::vector<object>&  object::children() { return __children; }
+std::vector<script*>& object::scripts () { return __scripts;  }
 
 script::script() { }

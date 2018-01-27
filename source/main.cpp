@@ -10,9 +10,11 @@
 
 class testscript : public script {
 public:
-  std::string name = "testscript";
+  std::string _name = "testscript";
+
+  const std::string& name() const { return _name; }
   
-  void onStart() {    
+  void onStart() {
     std::cout<<"Script started!\n";
   }
 };

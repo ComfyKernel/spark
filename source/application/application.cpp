@@ -25,10 +25,10 @@ bool application::run(uint2d pos, uint2d size, const std::string& name) {
   std::vector<object>& world_children = world.children();
 
   for(unsigned int i=0; i<world_children.size(); ++i) {
-    std::vector<script>& child_scripts = world_children[i].scripts();
+    std::vector<script*>& child_scripts = world_children[i].scripts();
     
     for(unsigned int s=0; s<child_scripts.size(); ++s) {
-      child_scripts[s].onStart();
+      child_scripts[s]->onStart();
     }
   }
 
@@ -36,29 +36,29 @@ bool application::run(uint2d pos, uint2d size, const std::string& name) {
     onUpdate(0.f);
 
     for(unsigned int i=0; i<world_children.size(); ++i) {
-      std::vector<script>& child_scripts = world_children[i].scripts();
+      std::vector<script*>& child_scripts = world_children[i].scripts();
       
       for(unsigned int s=0; s<child_scripts.size(); ++s) {
-	child_scripts[s].onUpdate(0.f);
+	child_scripts[s]->onUpdate(0.f);
       }
     }
 
     onDraw  (0.f);
 
     for(unsigned int i=0; i<world_children.size(); ++i) {
-      std::vector<script>& child_scripts = world_children[i].scripts();
+      std::vector<script*>& child_scripts = world_children[i].scripts();
       
       for(unsigned int s=0; s<child_scripts.size(); ++s) {
-	child_scripts[s].onDraw(0.f);
+	child_scripts[s]->onDraw(0.f);
       }
     }
   }
 
   for(unsigned int i=0; i<world_children.size(); ++i) {
-    std::vector<script>& child_scripts = world_children[i].scripts();
+    std::vector<script*>& child_scripts = world_children[i].scripts();
     
     for(unsigned int s=0; s<child_scripts.size(); ++s) {
-      child_scripts[s].onExit();
+      child_scripts[s]->onExit();
     }
   }
   

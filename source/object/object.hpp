@@ -14,10 +14,11 @@ protected:
   object* parent;
   
 public:
-  std::string name;
+  virtual const std::string& name() const { }
+  
   script();
 
-  virtual void onStart (           ) { }
+  virtual void onStart (           ) = 0;
   virtual void onUpdate(float delta) { }
   virtual void onDraw  (float delta) { }
   virtual void onExit  (           ) { }
@@ -35,8 +36,8 @@ protected:
 
   object* __parent;
 
-  std::vector<object> __children;
-  std::vector<script> __scripts;
+  std::vector<object>  __children;
+  std::vector<script*> __scripts;
 public:
   std::string name;
   
@@ -59,12 +60,19 @@ public:
   bool    delChild(const std::string&);
   object& getChild(const std::string&);
 
-  void    addScript(const script&);
-  bool    delScript(const std::string&);
-  script& getScript(const std::string&);
+  void    __addScript(script*);
 
-  std::vector<object>& children();
-  std::vector<script>& scripts ();
+  template<typename T>
+  void    addScript(const T& scr) {
+    T* dat = new T(scr);
+
+    __addScript(dat);
+  }
+  bool    delScript(const std::string&);
+  script* getScript(const std::string&);
+
+  std::vector<object>&  children();
+  std::vector<script*>& scripts ();
 };
 
 #endif
