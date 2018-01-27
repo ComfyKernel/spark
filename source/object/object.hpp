@@ -14,11 +14,13 @@ protected:
   object* parent;
   
 public:
+  std::string name;
   script();
 
-  virtual void onStart (           ) { };
-  virtual void onUpdate(float delta) { };
-  virtual void onExit  (           ) { };
+  virtual void onStart (           ) { }
+  virtual void onUpdate(float delta) { }
+  virtual void onDraw  (float delta) { }
+  virtual void onExit  (           ) { }
 };
 
 class application;
@@ -51,11 +53,18 @@ public:
   void rotate   (const float3d&);
   void scale    (const float3d&);
 
-  void setParent(object&);
+  void setParent(object*);
 
   void    addChild(const object&);
   bool    delChild(const std::string&);
   object& getChild(const std::string&);
+
+  void    addScript(const script&);
+  bool    delScript(const std::string&);
+  script& getScript(const std::string&);
+
+  std::vector<object>& children();
+  std::vector<script>& scripts ();
 };
 
 #endif

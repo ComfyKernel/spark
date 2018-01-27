@@ -8,6 +8,15 @@
 
 #include <iostream>
 
+class testscript : public script {
+public:
+  std::string name = "testscript";
+  
+  void onStart() {    
+    std::cout<<"Script started!\n";
+  }
+};
+
 class testapp : public application {
 public:
   vao    vobject;
@@ -28,7 +37,9 @@ public:
   void onStart() {
     world.addChild(object("testobject"));
 
-    world.getChild("testobject");
+    testscript t;
+
+    world.getChild("testobject").addScript(t);
     
     tscript.load("assets/scripts/thing.cfs");
 
