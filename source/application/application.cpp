@@ -44,6 +44,8 @@ bool application::run(uint2d pos, uint2d size, const std::string& name) {
 	child_scripts[s]->onDraw(0.f);
       }
     }
+
+    win.swap();
   }
 
   for(unsigned int i=0; i<world_children.size(); ++i) {

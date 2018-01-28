@@ -28,11 +28,13 @@ public:
   
   template<typename T>
   buffer(std::initializer_list<T> l, buffer_type t,buffer_draw_type d) {
+    _glid = 0;
     create_with_list(l,t,d);
   }
 
   template<typename T>
   buffer(std::initializer_list<T> l) {
+    _glid = 0;
     buffer_type  t=BUFFER_VERTEX;
 
     if(typeid(t) == typeid(float()) ||
@@ -56,6 +58,7 @@ public:
   template<typename T>
   void create_with_list(std::initializer_list<T> l,
 			buffer_type t,buffer_draw_type d) {
+    destroy();
     T* data = (T*)operator new(l.size() * sizeof(T));
  
     int cnt=0;

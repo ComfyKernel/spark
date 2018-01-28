@@ -2,13 +2,8 @@
 #define H_DEFAULT_SCRIPTS_HPP
 
 #include "object.hpp"
-#include "../render/buffer.hpp"
 
-class spriterenderer : public script {
-protected:
-  buffer vbuf;
-  buffer ibuf;
-  
+class spriterenderer : public script {  
 public:
   std::string _name = "spriterenderer";
 

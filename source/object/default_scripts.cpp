@@ -1,7 +1,30 @@
 #include "default_scripts.hpp"
+#include "../render/buffer.hpp"
+
+#include <iostream>
+
+typedef unsigned short ushort;
+
+uint __num_of_sprite_renderers = 0;
+
+buffer __spr_buff_indices;
+buffer __spr_buff_vertices;
 
 void spriterenderer::onStart() {
+  if(__num_of_sprite_renderers == 0) {
+    std::cout<<"[SpriteRenderer] Generating sprite buffers\n";
+    __spr_buff_vertices = buffer({
+	  0.f, 0.f, 0.f,
+	  1.f, 0.f, 0.f,
+	  1.f, 1.f, 0.f,
+	  0.f, 1.f, 0.f}, BUFFER_VERTEX, BUFFER_STATIC);
 
+    __spr_buff_indices  = buffer({
+	  ushort(0), ushort(1), ushort(2),
+	  ushort(2), ushort(3), ushort(0)}, BUFFER_ELEMENT, BUFFER_STATIC);
+  }
+  
+  __num_of_sprite_renderers++;
 }
 
 void spriterenderer::onUpdate(float delta) {
@@ -9,9 +32,24 @@ void spriterenderer::onUpdate(float delta) {
 }
 
 void spriterenderer::onDraw(float delta) {
+  glEnableVertexAttribArray(0);
 
+  glBindBuffer(GL_ARRAY_BUFFER, __spr_buff_vertices);
+  glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, (void*)0);
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, __spr_buff_indices);
+  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)0);
+
+  glDisableVertexAttribArray(0);
 }
 
 void spriterenderer::onExit() {
+  __num_of_sprite_renderers--;
 
+  if(__num_of_sprite_renderers == 0) {
+    std::cout<<"[SpriteRenderer] No current renderers exist, destroying buffers\n";
+    
+    __spr_buff_indices.destroy ();
+    __spr_buff_vertices.destroy();
+  }
 }
