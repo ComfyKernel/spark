@@ -2,28 +2,22 @@
 #define H_DEFAULT_SCRIPTS_HPP
 
 #include "object.hpp"
+#include "../render/buffer.hpp"
 
-class meshfilter : public script {
+class spriterenderer : public script {
+protected:
+  buffer vbuf;
+  buffer ibuf;
+  
 public:
-  std::string _name = "meshrenderer";
+  std::string _name = "spriterenderer";
 
   const std::string& name() const { return _name; }
 
-  void onStart() {
-
-  }
-
-  void onUpdate(float delta) {
-
-  }
-
-  void onDraw(float delta) {
-
-  }
-
-  void onExit() {
-
-  }
+  void onStart ();
+  void onUpdate(float);
+  void onDraw  (float);
+  void onExit  ();
 };
 
 #endif
