@@ -150,17 +150,17 @@ void _keyCallback(GLFWwindow* window,int key,int scancode,int action,int mods) {
 
   switch(action) {
   case GLFW_PRESS:
-  keyStatus=true;
-  break;
+    keyStatus=true;
+    break;
   case GLFW_RELEASE:
-  keyStatus=false;
-  break;
+    keyStatus=false;
+    break;
   case GLFW_REPEAT:
-  keyStatus=true;
-  break;
+    keyStatus=true;
+    break;
   default:
-  keyStatus=false;
-  break;
+    keyStatus=false;
+    break;
   }
 };
 
@@ -271,9 +271,9 @@ public:
       e.type=EVENT_KEY;
 
       if(keyStatus) {
-	e.type=EVENT_KEYUP;
-      } else {
 	e.type=EVENT_KEYDOWN;
+      } else {
+	e.type=EVENT_KEYUP;
       }
       
       keyIsSet=false;

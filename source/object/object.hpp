@@ -29,30 +29,25 @@ class application;
 class object {
 protected:
   friend class application;
-  
-  float3d __pos;
-  float3d __rot;
-  float3d __siz;
+  friend class script;
+
+  application* __app;
 
   object* __parent;
 
   std::vector<object>  __children;
   std::vector<script*> __scripts;
 public:
-  std::string name;
+  float3d position = float3d(0,0,0);
+  float3d rotation = float3d(0,0,0);
+  float3d scale    = float3d(1,1,1);
   
-  const float3d& position() const;
-  const float3d& rotation() const;
-  const float3d& scale   () const;
+  std::string name;
 
-  object&  parent        ();
+  object&  parent();
   
   object();
   object(const std::string&);
-
-  void translate(const float3d&);
-  void rotate   (const float3d&);
-  void scale    (const float3d&);
 
   void setParent(object*);
 
@@ -73,6 +68,8 @@ public:
 
   std::vector<object>&  children();
   std::vector<script*>& scripts ();
+
+  application* app();
 };
 
 #endif

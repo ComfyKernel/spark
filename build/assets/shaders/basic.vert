@@ -3,7 +3,9 @@
 in  vec3 pos;
 out vec2 uv;
 
+uniform mat4 PVM;
+
 void main() {
-	gl_Position=vec4(pos,1.0);
+	gl_Position=PVM * vec4(pos,1.0);
 	uv=pos.xy;
 }

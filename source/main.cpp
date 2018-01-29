@@ -8,6 +8,7 @@
 #include "log/log.hpp"
 
 #include <iostream>
+#include <math.h>
 
 class testscript : public script {
 public:
@@ -34,11 +35,10 @@ public:
   void onStart() {
     world.addChild(object("testobject"));
 
+    world.getChild("testobject").scale = float3d(100, 100, 1);
+    
     testscript t;
     world.getChild("testobject").addScript(t);
-
-    spriterenderer spr;
-    world.getChild("testobject").addScript(spr);
     
     tscript.load("assets/scripts/thing.cfs");
 
@@ -53,17 +53,28 @@ public:
 
     prog = shaderprogram{fshad, vshad};
 
+    world.getChild("testobject").addScript(spriterenderer(prog));
+
     glUseProgram(prog);
 
     glEnableVertexAttribArray(0);
   }
 
+  unsigned int frame = 0;
+
   void onUpdate(float delta) {
     event& e = win.pollEvents();
 
-    if(e.status) {
+    if(e.status && e.type == EVENT_KEYDOWN) {
       std::cout<<"[Key Pressed] '"<<e.key<<"'\n";
     }
+
+    object& testobj = world.getChild("testobject");
+
+    testobj.position.x = (sin(frame / 10.f) * 100) + (win.getSize().x / 2) - 50;
+    testobj.position.y = (cos(frame / 10.f) * 100) + (win.getSize().y / 2) - 50;
+
+    frame++;
   }
 
   void onDraw(float delta) {

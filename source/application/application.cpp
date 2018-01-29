@@ -3,6 +3,10 @@
 #include <iostream>
 #include <exception>
 
+#include <glm/gtc/matrix_transform.hpp>
+
+const glm::mat4& application::getOrtho() const { return _orthoMatrix; }
+
 application::application() {
   world.name = "world";
 }
@@ -19,6 +23,10 @@ bool application::run(uint2d pos, uint2d size, const std::string& name) {
     throw std::runtime_error("Failed to create an application window!");
     return false;
   }
+
+  _orthoMatrix = glm::ortho(0.f, float(size.x), 0.f, float(size.y), 0.f, 100.f);
+
+  world.__app = this;
 
   onStart();
 

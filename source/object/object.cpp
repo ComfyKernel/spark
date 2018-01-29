@@ -7,45 +7,30 @@ object::object() { }
 
 object::object(const std::string& n) : name(n) { }
 
-const float3d& object::position() const { return __pos; }
-const float3d& object::rotation() const { return __rot; }
-const float3d& object::scale   () const { return __siz; }
-
 object& object::parent() { return *__parent; }
-
-void object::translate(const float3d& pos) {
-  __pos += pos;
-}
-
-void object::rotate   (const float3d& rot) {
-  __rot += rot;
-}
-
-void object::scale    (const float3d& siz) {
-  __siz += siz;
-}
 
 void object::setParent(object* parent) {
   __parent = parent;
 }
 
-#define MAC_FITR(type,vecname,nvar)  \
-  find_if(vecname.begin(),          \
-          vecname.end(),	     \
-          [&](const type& t) {       \
-            return t.name == nvar;   \
+#define MAC_FITR(type,vecname,nvar)   \
+  find_if(vecname.begin(),            \
+          vecname.end(),	      \
+          [&](const type& t) {        \
+            return t.name == nvar;    \
           });
 
-#define MAC_SITR(type,vecname,nvar)  \
-  find_if(vecname.begin(),          \
-          vecname.end(),	     \
-          [&](const type* t) {       \
+#define MAC_SITR(type,vecname,nvar)   \
+  find_if(vecname.begin(),            \
+          vecname.end(),	      \
+          [&](const type* t) {        \
 	    return t->name() == nvar; \
           });
 
 void object::addChild(const object& o) {
   __children.push_back(o);
   __children[__children.size() - 1].setParent(this);
+  __children[__children.size() - 1].__app = __app;
 }
 
 object& object::getChild(const std::string& n) {
@@ -110,5 +95,7 @@ bool object::delScript(const std::string& n) {
 
 std::vector<object>&  object::children() { return __children; }
 std::vector<script*>& object::scripts () { return __scripts;  }
+
+application* object::app() { return __app; }
 
 script::script() { }

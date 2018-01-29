@@ -4,12 +4,18 @@
 #include "../render/window.hpp"
 #include "../object/object.hpp"
 
+#include <glm/mat4x4.hpp>
+
 class application {
 protected:
   bool _is_running = false;
+
+  glm::mat4 _orthoMatrix;
 public:
   window win;
   object world;
+
+  const glm::mat4& getOrtho() const;
   
   application();
 
