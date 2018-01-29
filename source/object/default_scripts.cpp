@@ -47,7 +47,9 @@ void spriterenderer::onUpdate(float delta) {
 void spriterenderer::onDraw(float delta) {
   glEnableVertexAttribArray(0);
 
+  std::cout<<"Getting ortho\n";
   _pvm = parent->app()->getOrtho();
+  std::cout<<"Done getting ortho\n";
 
   _pvm *= glm::translate(glm::mat4(1.f),
 			 glm::vec3(parent->position.x,
@@ -62,10 +64,10 @@ void spriterenderer::onDraw(float delta) {
   glBindBuffer(GL_ARRAY_BUFFER, __spr_buff_vertices);
   glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, (void*)0);
 
+  glUniformMatrix4fv(_matid, 1, false, &_pvm[0][0]);
+
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, __spr_buff_indices);
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)0);
-
-  glUniformMatrix4fv(_matid, 1, false, &_pvm[0][0]);
 
   glDisableVertexAttribArray(0);
 }

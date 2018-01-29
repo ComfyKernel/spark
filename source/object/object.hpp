@@ -32,6 +32,7 @@ protected:
   friend class script;
 
   application* __app;
+  bool __initialized = false;
 
   object* __parent;
 

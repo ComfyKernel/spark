@@ -15,7 +15,7 @@ public:
   window win;
   object world;
 
-  const glm::mat4& getOrtho() const;
+  glm::mat4 getOrtho() const;
   
   application();
 

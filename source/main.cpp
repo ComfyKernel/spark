@@ -33,13 +33,8 @@ public:
   cfs::scriptrunner tscript;
   
   void onStart() {
-    world.addChild(object("testobject"));
+    object to("obj1");
 
-    world.getChild("testobject").scale = float3d(100, 100, 1);
-    
-    testscript t;
-    world.getChild("testobject").addScript(t);
-    
     tscript.load("assets/scripts/thing.cfs");
 
     tscript.interpret();
@@ -53,8 +48,16 @@ public:
 
     prog = shaderprogram{fshad, vshad};
 
-    world.getChild("testobject").addScript(spriterenderer(prog));
+    to.scale = float3d(100, 100, 1);
 
+    world.addChild(to);
+    world.getChild("obj1").addScript(spriterenderer(prog));
+
+    to.name = "testobject2";
+    
+    world.addChild(to);
+    world.getChild("testobject2").addScript(spriterenderer(prog));
+    
     glUseProgram(prog);
 
     glEnableVertexAttribArray(0);
@@ -69,7 +72,7 @@ public:
       std::cout<<"[Key Pressed] '"<<e.key<<"'\n";
     }
 
-    object& testobj = world.getChild("testobject");
+    object& testobj = world.getChild("obj1");
 
     testobj.position.x = (sin(frame / 10.f) * 100) + (win.getSize().x / 2) - 50;
     testobj.position.y = (cos(frame / 10.f) * 100) + (win.getSize().y / 2) - 50;

@@ -1,4 +1,5 @@
 #include "object.hpp"
+#include "../application/application.hpp"
 
 #include <algorithm>
 #include <iostream>
@@ -29,8 +30,17 @@ void object::setParent(object* parent) {
 
 void object::addChild(const object& o) {
   __children.push_back(o);
-  __children[__children.size() - 1].setParent(this);
-  __children[__children.size() - 1].__app = __app;
+  
+  object& child = __children[__children.size() - 1];
+  child.setParent(this);
+  child.__app = __app;
+  child.__initialized = true;
+
+  std::vector<script*>& scripts = child.scripts();
+  for(unsigned int i=0; i<scripts.size(); ++i) {
+    scripts[i]->parent = &child;
+    scripts[i]->onStart();
+  }
 }
 
 object& object::getChild(const std::string& n) {
@@ -62,8 +72,12 @@ void object::__addScript(script* scr) {
   std::cout<<"Adding script '"<<scr->name()<<"'\n";
   __scripts.push_back(scr);
 
-  __scripts[__scripts.size() - 1]->parent = this;
-  __scripts[__scripts.size() - 1]->onStart();
+  if(__initialized) {
+    std::cout<<"Name: "<<this->name<<"\nApp: "<<app()->win.name<<"\n";
+    
+    __scripts[__scripts.size() - 1]->parent = this;
+    __scripts[__scripts.size() - 1]->onStart();
+  }
 }
 
 script* object::getScript(const std::string& n) {
