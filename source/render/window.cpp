@@ -198,11 +198,15 @@ public:
     return uint2d(w,h);
   }
 
+  std::string _name;
+
   void setPos (const uint2d&  pos) { glfwSetWindowPos (win,pos.x ,pos.y ); }
   void setSize(const uint2d& size) { glfwSetWindowSize(win,size.x,size.y); }
 
   bool create(const uint2d& pos, const uint2d& size,
 	      const std::string& name) {
+    _name = name;
+    
     if(!_has_init_glfw) {
       std::cout<<"Initializing GLFW\n";
       _has_init_glfw=true;
@@ -340,4 +344,8 @@ void window::swap()  { return _impl->swap();  }
 
 event& window::pollEvents() {
   return _impl->pollEvents();
+}
+
+const std::string& window::getName() {
+  return _impl->_name;
 }

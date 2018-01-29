@@ -14,8 +14,9 @@ public:
   void setPosition(const uint2d&);
   void setSize    (const uint2d&);
 
-  const uint2d getPosition();
-  const uint2d getSize();
+  const uint2d       getPosition();
+  const uint2d       getSize();
+  const std::string& getName();
 
   window();
   window(const uint2d&,

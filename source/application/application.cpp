@@ -29,7 +29,8 @@ bool application::run(uint2d pos, uint2d size, const std::string& name) {
   _orthoMatrix = glm::ortho(0.f, float(size.x), 0.f, float(size.y), 0.f, 100.f);
 
   world.__app = this;
-
+  std::cout<<"APP: "<<this<<"\n";
+  
   onStart();
 
   std::vector<object>& world_children = world.children();

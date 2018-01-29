@@ -19,8 +19,6 @@ uint __num_of_sprite_renderers = 0;
 buffer __spr_buff_indices;
 buffer __spr_buff_vertices;
 
-glm::mat4 _pvm;
-
 void spriterenderer::onStart() {
   if(__num_of_sprite_renderers == 0) {
     std::cout<<"[SpriteRenderer] Generating sprite buffers\n";
@@ -45,8 +43,12 @@ void spriterenderer::onUpdate(float delta) {
 }
 
 void spriterenderer::onDraw(float delta) {
+  glm::mat4 _pvm;
+  
   glEnableVertexAttribArray(0);
 
+  std::cout<<"APP: "<<parent->app()<<"\n";
+  std::cout<<parent->app()->win.getName()<<"\n";
   std::cout<<"Getting ortho\n";
   _pvm = parent->app()->getOrtho();
   std::cout<<"Done getting ortho\n";

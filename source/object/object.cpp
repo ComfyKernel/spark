@@ -36,6 +36,9 @@ void object::addChild(const object& o) {
   child.__app = __app;
   child.__initialized = true;
 
+  std::cout<<"APP: "<<__app<<"\n";
+  std::cout<<"CHILD APP: "<<child.__app<<"\n";
+
   std::vector<script*>& scripts = child.scripts();
   for(unsigned int i=0; i<scripts.size(); ++i) {
     scripts[i]->parent = &child;
@@ -73,7 +76,7 @@ void object::__addScript(script* scr) {
   __scripts.push_back(scr);
 
   if(__initialized) {
-    std::cout<<"Name: "<<this->name<<"\nApp: "<<app()->win.name<<"\n";
+    std::cout<<"Name: "<<this->name<<"\nApp: "<<app()->win.getName()<<"\n";
     
     __scripts[__scripts.size() - 1]->parent = this;
     __scripts[__scripts.size() - 1]->onStart();
