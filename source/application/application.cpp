@@ -29,7 +29,6 @@ bool application::run(uint2d pos, uint2d size, const std::string& name) {
   _orthoMatrix = glm::ortho(0.f, float(size.x), 0.f, float(size.y), 0.f, 100.f);
 
   world.__app = this;
-  std::cout<<"APP: "<<this<<"\n";
   
   onStart();
 
@@ -52,8 +51,6 @@ bool application::run(uint2d pos, uint2d size, const std::string& name) {
       std::vector<script*>& child_scripts = world_children[i].scripts();
       
       for(unsigned int s=0; s<child_scripts.size(); ++s) {
-	std::cout<<"on script : "<<child_scripts[s]->name()
-		 <<" : on child : "<<world_children[i].name<<"\n";
 	child_scripts[s]->onDraw(0.f);
       }
     }

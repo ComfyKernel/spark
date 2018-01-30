@@ -31,7 +31,6 @@ protected:
   friend class application;
   friend class script;
 
-  application* __app;
   bool __initialized = false;
 
   object* __parent;
@@ -42,6 +41,8 @@ public:
   float3d position = float3d(0,0,0);
   float3d rotation = float3d(0,0,0);
   float3d scale    = float3d(1,1,1);
+
+  application* __app;
   
   std::string name;
 

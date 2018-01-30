@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <exception>
 
 object::object() { }
 
@@ -35,9 +36,6 @@ void object::addChild(const object& o) {
   child.setParent(this);
   child.__app = __app;
   child.__initialized = true;
-
-  std::cout<<"APP: "<<__app<<"\n";
-  std::cout<<"CHILD APP: "<<child.__app<<"\n";
 
   std::vector<script*>& scripts = child.scripts();
   for(unsigned int i=0; i<scripts.size(); ++i) {
@@ -75,11 +73,19 @@ void object::__addScript(script* scr) {
   std::cout<<"Adding script '"<<scr->name()<<"'\n";
   __scripts.push_back(scr);
 
-  if(__initialized) {
-    std::cout<<"Name: "<<this->name<<"\nApp: "<<app()->win.getName()<<"\n";
-    
+  if(__app == nullptr) {
+    throw std::runtime_error("APP Is not allowed to be NULL!");
+    return;
+  }
+
+  if(__initialized) {    
     __scripts[__scripts.size() - 1]->parent = this;
     __scripts[__scripts.size() - 1]->onStart();
+
+    if(__scripts[__scripts.size() - 1]->parent->app() == nullptr) {
+      throw std::runtime_error("App is not allowed to be null!");
+      return;
+    }
   }
 }
 

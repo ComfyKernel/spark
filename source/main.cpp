@@ -54,13 +54,16 @@ public:
     world.getChild("obj1").addScript(spriterenderer(prog));
 
     to.name = "testobject2";
-    
+
+    to.position = float3d(20, 20, 0);
     world.addChild(to);
     world.getChild("testobject2").addScript(spriterenderer(prog));
     
     glUseProgram(prog);
 
     glEnableVertexAttribArray(0);
+
+    to.name = "nope";
   }
 
   unsigned int frame = 0;
@@ -74,8 +77,8 @@ public:
 
     object& testobj = world.getChild("obj1");
 
-    testobj.position.x = (sin(frame / 10.f) * 100) + (win.getSize().x / 2) - 50;
-    testobj.position.y = (cos(frame / 10.f) * 100) + (win.getSize().y / 2) - 50;
+    testobj.position = float3d((sin(frame / 10.f) * 100) + (win.getSize().x / 2) - 50,
+			       (cos(frame / 10.f) * 100) + (win.getSize().y / 2) - 50, 0);
 
     frame++;
   }

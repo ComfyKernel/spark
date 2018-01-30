@@ -47,11 +47,7 @@ void spriterenderer::onDraw(float delta) {
   
   glEnableVertexAttribArray(0);
 
-  std::cout<<"APP: "<<parent->app()<<"\n";
-  std::cout<<parent->app()->win.getName()<<"\n";
-  std::cout<<"Getting ortho\n";
-  _pvm = parent->app()->getOrtho();
-  std::cout<<"Done getting ortho\n";
+  _pvm = parent->__app->getOrtho();
 
   _pvm *= glm::translate(glm::mat4(1.f),
 			 glm::vec3(parent->position.x,
